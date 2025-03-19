@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Careville/nestjs-mailer/compare/v1.0.2...v1.1.0) (2025-03-19)
+
+
+### Features
+
+* add cjs to package ([d140c10](https://github.com/Careville/nestjs-mailer/commit/d140c10163b0cf7c0a6be3a576b7d9e4486a3f6d))
+
 ## [1.0.2](https://github.com/Careville/nestjs-mailer/compare/v1.0.1...v1.0.2) (2025-03-19)
 
 
