@@ -26,12 +26,12 @@ export class MailService {
 
   private async sendMailSMTP(to: string, subject: string, content: React.ReactElement) {
     const transporter = nodemailer.createTransport({
-      host: this.options.stmp.host,
-      port: this.options.stmp.port,
+      host: this.options.smtp.host,
+      port: this.options.smtp.port,
       secure: true,
       auth: {
-        user: this.options.stmp.auth.user,
-        pass: this.options.stmp.auth.pass,
+        user: this.options.smtp.auth.user,
+        pass: this.options.smtp.auth.pass,
       },
     });
 
