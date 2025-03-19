@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/Careville/nestjs-mailer/compare/v1.0.1...v1.0.2) (2025-03-19)
+
+
+### Bug Fixes
+
+* add missing template export ([37f93b1](https://github.com/Careville/nestjs-mailer/commit/37f93b19734429b768b550cc569dd8de6220042a))
+
 ## [1.0.1](https://github.com/Careville/nestjs-mailer/compare/v1.0.0...v1.0.1) (2025-03-19)
 
 
