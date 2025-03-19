@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/Careville/nestjs-mailer/compare/v1.1.0...v1.1.1) (2025-03-19)
+
+
+### Bug Fixes
+
+* use .cjs ending for cjs ([91929ed](https://github.com/Careville/nestjs-mailer/commit/91929ed5e5f62ecc74e54b0c58d8acc36be8426a))
+
 # [1.1.0](https://github.com/Careville/nestjs-mailer/compare/v1.0.2...v1.1.0) (2025-03-19)
 
 
