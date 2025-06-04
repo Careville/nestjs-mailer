@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/Careville/nestjs-mailer/compare/v1.1.1...v1.2.0) (2025-06-04)
+
+
+### Features
+
+* add attachments to send mail ([d3b17c7](https://github.com/Careville/nestjs-mailer/commit/d3b17c7b69ebcebaac1a0dc12f683527cb7a8af7))
+
 ## [1.1.1](https://github.com/Careville/nestjs-mailer/compare/v1.1.0...v1.1.1) (2025-03-19)
 
 
