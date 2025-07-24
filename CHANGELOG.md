@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/Careville/nestjs-mailer/compare/v1.2.0...v1.2.1) (2025-07-24)
+
+
+### Bug Fixes
+
+* attachments can be null ([c47b500](https://github.com/Careville/nestjs-mailer/commit/c47b5008817627e9631561c778fc16c3d0dc2c9c))
+
 # [1.2.0](https://github.com/Careville/nestjs-mailer/compare/v1.1.1...v1.2.0) (2025-06-04)
 
 
