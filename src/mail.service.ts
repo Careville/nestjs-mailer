@@ -82,24 +82,28 @@ export class MailService {
     const html = await render(content);
 
     // https://learn.microsoft.com/en-us/graph/api/message-post-attachments?view=graph-rest-1.0&tabs=http
-    const graphAttachments: FileAttachment[] = await Promise.all(
-      attachments.map(async (att) => {
-        let contentBytes: string;
-        if (att.content) {
-          const buf = typeof att.content === "string" ? Buffer.from(att.content) : att.content;
-          contentBytes = buf.toString("base64");
-        } else {
-          throw new Error(`Attachment ${att.filename} has neither content nor path`);
-        }
+    let graphAttachments: FileAttachment[] = [];
 
-        return {
-          "@odata.type": "#microsoft.graph.fileAttachment",
-          name: att.filename,
-          contentType: att.contentType,
-          contentBytes,
-        };
-      }),
-    );
+    if (attachments) {
+      graphAttachments = await Promise.all(
+        attachments.map(async (att) => {
+          let contentBytes: string;
+          if (att.content) {
+            const buf = typeof att.content === "string" ? Buffer.from(att.content) : att.content;
+            contentBytes = buf.toString("base64");
+          } else {
+            throw new Error(`Attachment ${att.filename} has neither content nor path`);
+          }
+
+          return {
+            "@odata.type": "#microsoft.graph.fileAttachment",
+            name: att.filename,
+            contentType: att.contentType,
+            contentBytes,
+          };
+        }),
+      );
+    }
 
     const sendMail = async () => {
       const mail: GraphSendMailRequest = {
