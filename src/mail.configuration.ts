@@ -16,6 +16,8 @@ type SMTPConfig = BaseMailServerConfig & {
       user: string;
       pass: string;
     };
+    ignoreTLS?: boolean;
+    tls?: { rejectUnauthorized: boolean };
   };
   msGraph?: never;
 };

@@ -39,11 +39,13 @@ export class MailService {
     const transporter = nodemailer.createTransport({
       host: this.options.smtp.host,
       port: this.options.smtp.port,
-      secure: true,
+      secure: this.options.smtp.secure,
       auth: {
         user: this.options.smtp.auth.user,
         pass: this.options.smtp.auth.pass,
       },
+      ...(this.options.smtp.ignoreTLS !== undefined && { ignoreTLS: this.options.smtp.ignoreTLS }),
+      ...(this.options.smtp.tls && { tls: this.options.smtp.tls }),
     });
 
     const html = await render(content);
