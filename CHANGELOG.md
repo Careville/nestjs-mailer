@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/Careville/nestjs-mailer/compare/v1.2.1...v1.3.0) (2026-04-16)
+
+
+### Features
+
+* allow ignoring tls ([f99ef1c](https://github.com/Careville/nestjs-mailer/commit/f99ef1cb1b4c35354e8547ffefd998e4863a4e41))
+
 ## [1.2.1](https://github.com/Careville/nestjs-mailer/compare/v1.2.0...v1.2.1) (2025-07-24)
 
 
