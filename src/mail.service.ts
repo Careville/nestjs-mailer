@@ -1,5 +1,5 @@
 import { ClientSecretCredential } from "@azure/identity";
-import { Client } from "@microsoft/microsoft-graph-client";
+import { Client, GraphError } from "@microsoft/microsoft-graph-client";
 import { TokenCredentialAuthenticationProvider } from "@microsoft/microsoft-graph-client/authProviders/azureTokenCredentials";
 import { FileAttachment, Message } from "@microsoft/microsoft-graph-types";
 import { Inject, Injectable, Logger } from "@nestjs/common";
@@ -35,6 +35,23 @@ export class MailService {
     }
   }
 
+  // One line with everything needed to diagnose a delivery failure. Graph
+  // errors carry an HTTP status + error code; AAD failures (e.g. an expired
+  // client secret) surface their AADSTS code in the message.
+  private logSendError(transport: string, to: string, subject: string, error: unknown) {
+    const detail =
+      error instanceof GraphError
+        ? `${error.statusCode} ${error.code}: ${error.message}`
+        : error instanceof Error
+          ? error.message
+          : String(error);
+
+    this.logger.error(
+      `Sending mail "${subject}" to ${to} via ${transport} failed: ${detail}`,
+      error instanceof Error ? error.stack : undefined,
+    );
+  }
+
   private async sendMailSMTP(to: string, subject: string, content: React.ReactElement, attachments?: MailAttachment[]) {
     const transporter = nodemailer.createTransport({
       host: this.options.smtp.host,
@@ -63,7 +80,7 @@ export class MailService {
     };
 
     await transporter.sendMail(options).catch((err) => {
-      this.logger.error(err);
+      this.logSendError("SMTP", to, subject, err);
       throw err;
     });
   }
@@ -107,32 +124,32 @@ export class MailService {
       );
     }
 
-    const sendMail = async () => {
-      const mail: GraphSendMailRequest = {
-        message: {
-          subject: subject,
-          body: {
-            contentType: "html",
-            content: html,
-          },
-          toRecipients: [
-            {
-              emailAddress: {
-                address: to,
-              },
-            },
-          ],
-          attachments: graphAttachments,
+    const mail: GraphSendMailRequest = {
+      message: {
+        subject: subject,
+        body: {
+          contentType: "html",
+          content: html,
         },
-      };
-
-      try {
-        await client.api(`/users/${this.options.from}/sendMail`).post(mail);
-      } catch (error) {
-        this.logger.error("Error sending email:", error);
-      }
+        toRecipients: [
+          {
+            emailAddress: {
+              address: to,
+            },
+          },
+        ],
+        attachments: graphAttachments,
+      },
     };
 
-    await sendMail();
+    try {
+      await client.api(`/users/${this.options.from}/sendMail`).post(mail);
+    } catch (error) {
+      // Never swallow delivery failures — a broken transport (expired client
+      // secret, missing Mail.Send permission) must fail the caller, not
+      // pretend the mail went out.
+      this.logSendError("MS Graph", to, subject, error);
+      throw error;
+    }
   }
 }
